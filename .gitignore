@@ -1,4 +1,6 @@
 # Made special for CompCiv 2018
+answers/*.*
+answers/
 
 # names for data stash folders that shouldn't be committed
 _drafts/
@@ -7,6 +9,7 @@ datadump/
 foobar/
 foobar.*
 junk/
+
 
 
 # try to prevent the inclusion of credentials
