@@ -1,7 +1,9 @@
 import requests
 import scraper as cs
 
-SAMPLE_URL = cs.SAMPLE_NEWS_URL
+SAMPLE_URL = 'https://wgetsnaps.github.io/stanford-edu-news/news/simple.html'
+HEADLINE_PATTERN = '<h3><a'
+
 TEST_URL = 'https://compciv.github.io/stash/hello.html'
 
 HED_HTML = """<h3><a href="https://news.stanford.edu/yo/go-card">Small step for man, giant gaffe for NASA</a></h3>"""
@@ -38,9 +40,8 @@ def test_fetch_html():
     assert isinstance(x, str)
     assert x.strip() == '<h1>Hello, world!</h1>'
 
-
-def test_extract_headline():
-    h = cs.extract_headline(HED_HTML)
+def test_extract_headline_text():
+    h = cs.extract_headline_text(HED_HTML)
 
     assert isinstance(h, str)
     assert h == 'Small step for man, giant gaffe for NASA'
@@ -50,7 +51,7 @@ def test_parse_headline_tags():
     tags = cs.parse_headline_tags(PAGE_HTML)
     assert isinstance(tags, list)
     assert all(type(t) is str for t in tags)
-    assert all(cs.HEADLINE_PATTERN in t for t in tags)
+    assert all(HEADLINE_PATTERN in t for t in tags)
 
 
 def test_print_hedz(capsys):

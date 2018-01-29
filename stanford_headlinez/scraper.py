@@ -8,11 +8,11 @@ def print_hedz(url=OFFICAL_NEWS_URL):
     hedtags = parse_headline_tags(fetch_html(url))
 
     for h in hedtags:
-        hedtxt = extract_headline(h)
+        hedtxt = extract_headline_text(h)
         print(hedtxt)
 
 
-def extract_headline(txt):
+def extract_headline_text(txt):
     a = txt.split('<')[2]
     b = a.split('>')[1]
     return b
