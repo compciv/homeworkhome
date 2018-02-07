@@ -42,23 +42,25 @@ This assignment covers the same target -- extracting headlines from the Stanford
 Assuming `bscraper.py` is in your current working directory:
 
 ```py
-from answer_bscraper import fetch_hedz
+from bscraper import fetch_hedz
 url = 'https://wgetsnaps.github.io/stanford-edu-news/news/simple.html'
-HED_TEMPLATE = '{t}\n - via {u}'
 
 headlines = fetch_hedz(url)
-for h in headlines:
-  txt = HED_TEMPLATE.format(t=h['title'].upper(), u=h['url'])
-  print(txt)
+for hed in headlines:
+  print("News headline:", hed['title'])
+  print("URL:", hed['url'])
+  print("----")
 ```
 
 Output:
 
 ```
-A WINDOW INTO LONG-RANGE PLANNING
- - via https://news.stanford.edu/2018/01/16/window-long-range-planning/
-3-D IMAGES OF ARTIFACTS ENRICH EXPERIENCE FOR STUDENTS, FACULTY
- - via https://news.stanford.edu/2018/01/12/3-d-images-artifacts-enrich-experience-students-faculty/
+News headline: A window into long-range planning
+URL: https://news.stanford.edu/2018/01/16/window-long-range-planning/
+----
+News headline: 3-D images of artifacts enrich experience for students, faculty
+URL: https://news.stanford.edu/2018/01/12/3-d-images-artifacts-enrich-experience-students-faculty/
+----
 ```
 
 
