@@ -1,9 +1,34 @@
 # stanford_headlinez_souped: Scraping web news with Beautiful Soup
 
+
 If you the [stanford_headlinez](../stanford_headlinez) assignment's notion of "web scraping" to be absurd and asinine, then good news, we'll never be parsing HTML like that again.
 
 
 This assignment covers the same target -- extracting headlines from the Stanford news page. However, instead of using string `split()` methods to extract the headline text, it uses the [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) library.
+
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Overview](#overview)
+  - [Example usage](#example-usage)
+- [Requirements](#requirements)
+  - [Functional requirements](#functional-requirements)
+- [Setup and getting started](#setup-and-getting-started)
+  - [Setting up your working folder via the command-line](#setting-up-your-working-folder-via-the-command-line)
+  - [Dependencies](#dependencies)
+  - [Test suite](#test-suite)
+- [Background information](#background-information)
+  - [Getting started with BeautifulSoup](#getting-started-with-beautifulsoup)
+    - [Making our own simple HTML string](#making-our-own-simple-html-string)
+    - [Importing the BeautifulSoup() class/init function](#importing-the-beautifulsoup-classinit-function)
+    - [Inspecting the `soup` object](#inspecting-the-soup-object)
+    - [Using the `select()` method](#using-the-select-method)
+  - [Using BeautifulSoup on the Stanford news HTML](#using-beautifulsoup-on-the-stanford-news-html)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 
 ## Overview
 
@@ -178,13 +203,19 @@ The popular convention for using Beautiful Soup is to import the `BeautifulSoup`
 >>>> from bs4 import BeautifulSoup
 ```
 
-The main argument for the `BeautifulSoup()` init function is `markup` -- the text string of raw HTML to parse. However, in practice, you should be prepared to supply a second argument -- a string for the name of your system's HTML parser. Don't know what that means? Just pass in `'lxml'`.
+The main argument for the `BeautifulSoup()` init function is `markup` -- the text string of raw HTML to parse. However, in practice, you should be prepared to supply a second argument -- a string for the name of your system's HTML parser. Don't know what that means? Just pass in `'lxml'` as a string -- no other explanation needed other [insert shrug emoji here].
 
 I like using `soup` as a variable name for the BeautifulSoup object:
 
 
 ```py
 >>>> soup = BeautifulSoup(htmltxt, 'lxml')
+```
+
+Again, to reaffirm that the first argument is just a `str`, this would work too:
+
+```py
+>>>> soup = BeautifulSoup('<h1>Hello world!</h1>', 'lxml')
 ```
 
 
