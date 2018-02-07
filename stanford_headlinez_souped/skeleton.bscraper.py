@@ -24,11 +24,17 @@ def fetch_hedz(url=OFFICIAL_URL):
     """
     txt = fetch_html(url)
     tags = parse_headline_tags(txt)
+    # headlines is an empty list for appending things
+    # return it at the end
     headlines = []
 
     ###
     # You do the rest!
     #
+    # iterate through the `tags`
+    # for each tag,
+    #     do something to it (use one of the functions that you've had to write)
+    #     append the result to `headlines`
     ###
     return headlines
 
