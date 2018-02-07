@@ -91,7 +91,7 @@ Here's the suggested order of completion:
 
 ## Setup and getting started
 
-<a name="cli-setup"></a>
+<a name="cli-setup" id="cli-setup"></a>
 
 ### From the command-line
 
