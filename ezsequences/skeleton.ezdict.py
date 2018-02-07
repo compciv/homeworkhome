@@ -90,7 +90,7 @@ def foo_g():
 
 def foo_h():
     """
-    Print the start date of President Trump's initial term
+    Return the start date of President Trump's initial term
     """
 
 
