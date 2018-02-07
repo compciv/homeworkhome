@@ -89,7 +89,9 @@ Here's the suggested order of completion:
 
 ## Setup and getting started
 
-### Setting up your working folder via the command-line
+<a name="cli-setup"></a>
+
+### From the command-line
 
 Assuming that you are in your system shell (Terminal/PowerShell), here's how to use the command-line to download and copy the skeleton and test files quickly to your current working directory (i.e. make sure you've used `cd` to get to where you want):
 
@@ -112,6 +114,11 @@ $ curl.exe -o bscraper.py `
 $ curl.exe -O `
     https://compciv.github.io/homeworkhome/stanford_headlinez_souped/test_bscraper.py
 ```
+
+Note that I've written these commands to span across a couple of lines so that they're easier to read. In Mac OS/Linux, the character to indicate a **line continuation** is the **backslash**: `\`
+
+In Windows, it is the **backtick**: ```
+
 
 
 
@@ -501,7 +508,52 @@ Note: the snippet above only works because the Stanford Daily page, as archived 
 
 # Conclusion
 
-So there are many different ways to define the *selector* we need -- and several nuances and etc. etc. that come with experience as a web developer. Assuming you are *not* (yet) a web-developer, it's enough to understand that HTML has a hierarchal structure, and that we need to understand (at a glance) the nested structure of information when we try to *select* the parts we need.
+Here's a quick recap of the syntax:
+
+```py
+from bs4 import BeautifulSoup
+txt = """
+<h1><a href="https://google.com">Search site</a></h1>
+<h1><a href="https://nytimes.com">News site</a></h1>
+"""
+soup = BeautifulSoup(txt, 'lxml')
+for tag in soup.select('h1 a'):
+    print("Link text:", tag.text)
+    print("URL:", tag.attrs['href'])
+    print("\n")
+```
+
+Try it out yourself to get this output:
+
+```
+Link text: Search site
+URL: https://google.com
+
+
+Link text: News site
+URL: https://nytimes.com
+```
+
+There are many different ways to define the *selector* -- consider this variation of the above snippet: 
+
+```py
+from bs4 import BeautifulSoup
+txt = """
+<h1><a href="https://google.com">Search site</a></h1>
+<h1><a href="https://nytimes.com">News site</a></h1>
+"""
+soup = BeautifulSoup(txt, 'lxml')
+for tag in soup.select('h1'):
+    link = tag.select_one('a')
+    if link:
+        print("Link text:", link.text)
+        print("URL:", link.attrs['href'])
+        print("\n")
+```
+
+
+
+HTML, being its own language, is enough of a topic for its own course, and web-scraping is easier when you have web development experience. But assuming you are *not* (yet) a web-developer, it's enough to understand that HTML has a hierarchal structure, and that we need to understand (at a glance) the nested structure of information when we try to *select* the parts we need.
 
 So that's the "hard" part of web-scraping, figuring out the HTML that represents the info that we *need* for our purposes. But the good news is that, once we've done that, then a library like **BeautifulSoup** makes it easy to deal with a big ol' HTML string as a data structure.
 
