@@ -7,13 +7,12 @@ import requests
 # ...just here for educational purposes...
 ###
 
-
 # a static/archived copy of Texas's "Offenders on Death Row"
 DATA_SRC_URL = 'https://wgetsnaps.github.io/tdcj-state-tx-us-2018/death_row/dr_offenders_on_dr.html'
 # the filename of the saved page
 DATA_FILEPATH = Path('tx-deathrow-webpage.html')
 
-def bootstrap():
+def fetch_data_from_web():
     """
     This is meant to only run once. It fetches the page and
     saves it to a specified filepath. Basically, a function
@@ -22,7 +21,6 @@ def bootstrap():
 
     The upshot is that checker.py doesn't have to worry about
      making a web request (i.e downloading)
-
 
     Args:
         None
@@ -56,10 +54,11 @@ def get_html():
     Returns:
         <str>: the contents of the file at DATA_FILEPATH as a big text string
     """
-    if not DATA_FILEPATH.exists():
-        bootstrap() # makes sure bootstrap is run if for some reason data file doesn't exist
 
+    if not DATA_FILEPATH.exists():
+        fetch_data_from_web()
     return DATA_FILEPATH.read_text()
+
 
 
 

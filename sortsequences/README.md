@@ -1,5 +1,28 @@
 # sortsequences - Quick exercises with the `sorted()` method
 
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Requirements](#requirements)
+- [Setup via the command-line](#setup-via-the-command-line)
+- [Practice with `sorted()`](#practice-with-sorted)
+  - [Simple sorting](#simple-sorting)
+  - [The problem with complex sequences/data](#the-problem-with-complex-sequencesdata)
+  - [Using the `key` argument](#using-the-key-argument)
+  - [Making mini-functions for `key`](#making-mini-functions-for-key)
+    - [Quick `sorted()` exercise on a list of lists](#quick-sorted-exercise-on-a-list-of-lists)
+    - [Sorting by multiple factors/values](#sorting-by-multiple-factorsvalues)
+  - [Alternate ways to work with the `key` argument](#alternate-ways-to-work-with-the-key-argument)
+    - [Extracting key-value from dicts using operator.itemgetter()](#extracting-key-value-from-dicts-using-operatoritemgetter)
+    - [The `lambda` operator for single-line anonymous functions](#the-lambda-operator-for-single-line-anonymous-functions)
+    - [Quick `sorted()` exercise on a list of dicts, lambda vs foo](#quick-sorted-exercise-on-a-list-of-dicts-lambda-vs-foo)
+  - [Conclusion: What's better](#conclusion-whats-better)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+
 Similar to [ezsequences](../ezsequences), except the focus is on using `sorted()` to sort sequences of elements.
 
 Besides *filtering* (which we implement with conditional statements), *sorting* is the most powerful technique we have in working with information. As with everything in programming, sorting is more complicated than we think it should be, but only because programming gives us so much control.
