@@ -15,11 +15,11 @@ Assuming `bscraper.py` is in your current working directory:
 ```py
 from answer_bscraper import fetch_hedz
 url = 'https://wgetsnaps.github.io/stanford-edu-news/news/simple.html'
+HED_TEMPLATE = '{t}\n - via {u}'
 
 headlines = fetch_hedz(url)
 for h in headlines:
-  txt = '{t}\n -via {u}'.format(t=h['title'].upper(), 
-                                  u=h['url'])
+  txt = HED_TEMPLATE.format(t=h['title'].upper(), u=h['url'])
   print(txt)
 ```
 
@@ -27,13 +27,13 @@ Output:
 
 ```
 A WINDOW INTO LONG-RANGE PLANNING
- -via https://news.stanford.edu/2018/01/16/window-long-range-planning/
+ - via https://news.stanford.edu/2018/01/16/window-long-range-planning/
 3-D IMAGES OF ARTIFACTS ENRICH EXPERIENCE FOR STUDENTS, FACULTY
- -via https://news.stanford.edu/2018/01/12/3-d-images-artifacts-enrich-experience-students-faculty/
+ - via https://news.stanford.edu/2018/01/12/3-d-images-artifacts-enrich-experience-students-faculty/
 ```
 
 
-## Technical requirements
+## Requirements
 
 Your program should have a file named `bscraper.py`. 
 
@@ -42,6 +42,49 @@ You can download a skeleton/draft of that file, with the function names/document
 [skeleton.bscraper.py](skeleton.bscraper.py)
 
 Copy its contents and save to your working directory as `bscraper.py`.
+
+When it is finished, you should be able to run `pytest` and pass all assertions in the [test_bscraper.py](test_bscraper.py) file.
+
+
+### Functional requirements
+
+Like [the stanford_headlinez assignment](../stanford_headlinez), this one is split up into several functions to make it more digestible. The [skeleton.bscraper.py](skeleton.bscraper.py) file has the function names written out with their full definitions in the comments. 
+
+Here's the suggested order of completion:
+
+- `fetch_html()`: This is exactly the same as before -- given a URL, return its contents as text.
+- `parse_headline_tags()`: Like before, given a `str` as argument (the HTML of a webpage), it returns a list. However, instead of a list of string objects, it returns a list of `bs4.element.Tag` objects using the **BeautifulSoup** library.
+- `extract_headline_data()`: Takes a `bs4.element.Tag` object (ostensibly, one that encapsulates the HTML for a Stanford news headline) and converts it to a `dict` object.
+- `fetch_hedz()`: This one is partially written for you. Complete the subfunctions so that this one returns a `list` of `dict` objects
+- `print_hedz()`: This one's already written for you and should work like before, when all the other functions have been written.
+
+## Setup and getting started
+
+### Setting up your working folder via the command-line
+
+Assuming that you are in your system shell (Terminal/PowerShell), here's how to use the command-line to download and copy the skeleton and test files quickly to your current working directory (i.e. make sure you've used `cd` to get to where you want):
+
+**Mac OS/Linux:**
+
+```sh
+$ curl -o bscraper.py \
+      https://compciv.github.io/homeworkhome/stanford_headlinez_souped/skeleton.bscraper.py
+
+$ curl -O \
+    https://compciv.github.io/homeworkhome/stanford_headlinez_souped/test_bscraper.py
+```
+
+**Windows:**
+
+```sh
+$ curl.exe -o bscraper.py `
+      https://compciv.github.io/homeworkhome/stanford_headlinez_souped/skeleton.bscraper.py
+
+$ curl.exe -O `
+    https://compciv.github.io/homeworkhome/stanford_headlinez_souped/test_bscraper.py
+```
+
+
 
 ### Dependencies
 
@@ -55,13 +98,13 @@ These libraries come as part of the [Anaconda distribution package](https://cond
 
 If you run into any `ModuleNotFoundError` errors, it likely means that the libraries aren't yet installed on your system. You can fix it with this system shell command:
 
+(use `conda` instead of `pip` if you *are* using Anaconda...)
 
 ```sh
 $ pip install beautifulsoup4
 $ pip install requests
 $ pip install pytest
 ```
-
 
 
 ### Test suite
@@ -90,34 +133,129 @@ A short primer on how to use Beautiful Soup for HTML parsing can be found here:
 Some use-cases:
 
 - [Using BeautifulSoup to parse HTML and extract press briefings URLs](http://www.compjour.org/warmups/govt-text-releases/intro-to-bs4-lxml-parsing-wh-press-briefings/)
-- [A walkthrough of HTML scraping and regexes](http://www.compjour.org/lessons/lectures/2016-04-20-basic-scrape/)
+- [A brief primer to HTML](http://www.compjour.org/tutorials/elements-of-a-webpage/#a-brief-primer-to-html) - you're not expected to master all the subtleties of HTML, just to understand that it is just text with a certain structure (e.g. HTML tags, open vs. closing tags, nested elements).
 
-### Getting started
+
+
+### Getting started with BeautifulSoup
+
+As with any new library, you should test it out using *interactive Python*.
+
+
+#### Making our own simple HTML string
+
+First, we need some HTML to parse. You may think we have to download from a webpage to get some HTML. But HTML is *just text*. Which means we can construct it ourselves as any old string. Here's some legitimate HTML:
+
+```py
+>>>> htmltxt = '<h1>Hello world!</h1>'
+```
+
+Let's make it our goal to extract just the **text content** of that HTML, i.e.
+
+```
+Hello world!
+```
+
+We could do it with the string `split()` method, like we did in the [stanford_headlinez](../stanford_headlinez) assignment, e.g.  
+
+
+```py
+>>>> txt = htmltxt.split('>')[1].split('<')[0]
+>>>> print(txt)
+Hello world!
+```
+
+
+-- but that is **very bad practice** and you should never ever resort to such methods when dealing with HTML. HTML is a language with *specifications*, i.e. it was intended for programs, like web browsers and the **BeautifulSoup** library, to sanely parse and process, not to be hacked with string methods.
+
+#### Importing the BeautifulSoup() class/init function
+
+> **Note:** (I'm deliberately ignoring the definition of what a "class" or "constructor function" is because this is not meant to be a lesson about object-oriented programming...)
 
 The popular convention for using Beautiful Soup is to import the `BeautifulSoup` class from the `bs4` namespace:
 
 ```py
-from bs4 import BeautifulSoup
+>>>> from bs4 import BeautifulSoup
 ```
 
 The main argument for the `BeautifulSoup()` init function is `markup` -- the text string of raw HTML to parse. However, in practice, you should be prepared to supply a second argument -- a string for the name of your system's HTML parser. Don't know what that means? Just pass in `'lxml'`.
 
-I like using `soup` to label the BeautifulSoup object:
+I like using `soup` as a variable name for the BeautifulSoup object:
 
 
 ```py
-soup = BeautifulSoup('<h1>Hello</h1><h2>world!</h2>', 'lxml')
+>>>> soup = BeautifulSoup(htmltxt, 'lxml')
 ```
 
-`BeautifulSoup` has a large variety of [parsing/searching/traversal methods](https://www.crummy.com/software/BeautifulSoup/bs4/doc/), but you should expect to stick to just one for the vast majority of your work: `.select()`
 
-Some documentation here: [BS4: CSS selectors](https://www.crummy.com/software/BeautifulSoup/bs4/doc/#css-selectors)
+#### Inspecting the `soup` object
+
+Use `type()` to see what kind of object it is:
+
+```py
+>>>> type(soup)
+bs4.BeautifulSoup
+```
+
+If you try to inspect the contents of the `soup` object, you'll get something a bit strange:
+
+```py
+>>>> soup
+<html><body><h1>Hello world!</h1></body></html>
+```
+
+For starters, that's not a `str` object, *per se*, it's just what that `bs4.BeautifulSoup` object has been designed to output when you inspect it (i.e. interactively). (this is a technicality, nothing to obsess about)...
+
+But the big confusing thing is those extra tags that have been added to the original HTML of `<h1>Hello world!</h1>`, e.g. `<html><body>`. The short answer is that the BeautifulSoup library wants its HTML to be proper webpage HTML -- that is, inside a `<html>` and `<body>` tag, not just some disembodied `<h1>` tag all by its lonesome. For our purposes, it doesn't affect our results so we'll just live with what BeautifulSoup insists on doing...
+
+
+#### Using the `select()` method
+
+
+
+The **BeautifulSoup** object has a large variety of [parsing/searching/traversal methods](https://www.crummy.com/software/BeautifulSoup/bs4/doc/), for getting to the element we want and to extract its properties -- in this case, the `<h1>` tag, and its *text*, i.e. `'Hello world!`.
+
+But for the most part, the only method you need is `.select()`, which you can read about here:
+
+https://www.crummy.com/software/BeautifulSoup/bs4/doc/#css-selectors
+
+The `.select()` method requires one argument: a `str` that describes the elements we want to capture. In this example, we want to capture all the `<h1>` elements (even though there is only one such element in our contrived simple example). 
+
+So we pass in `h1` as the argument (i.e. *don't* include the angle-brackets):
+
+
+```py
+>>>> tags = soup.select('h1')
+```
+
+Even though there is just a single `<h1>` element in the example HTML we wrote, the `.select()` method always returns a list. And that list may contain just a single element, or even be completely empty, but it is still a list:
+
+```py
+>>>> type(tags)
+list
+>>>> tags
+[<h1>Hello world!</h1>]
+>>>> t = tags[0]
+>>>> type(t)
+bs4.element.Tag
+```
+
+You can read about the `bs4.element.Tag` object [in the official documentation here](https://www.crummy.com/software/BeautifulSoup/bs4/doc/#tag). For our purposes, extracting the text is as easy as referring to the `Tag` object's `text` attribute:
+
+```py
+>>>> t.text
+'Hello world!'
+```
+
+### Using BeautifulSoup on the Stanford news HTML
 
 
 
 
+Hints:
 
-
+- Use the `BeautifulSoup()` and `.select()` functions when writing out the `parse_headline_tags()` function
+- And use the `.text` and `.attrs` attributes of the `Tag` object when writing `extract_headline_data()`
 
 
 

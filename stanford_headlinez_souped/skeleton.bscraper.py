@@ -13,7 +13,7 @@ def fetch_hedz(url=OFFICIAL_URL):
         url (str): a URL to visit and read and parse HTML
 
     Returns:
-        list: a sequence of dict objects, each one containg the
+        list: a sequence of dict objects, each one containing the
             'url' and 'title' data extracted from the HTML
 
     """
