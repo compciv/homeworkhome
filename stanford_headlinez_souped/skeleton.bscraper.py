@@ -14,10 +14,14 @@ def fetch_hedz(url=OFFICIAL_URL):
 
     Returns:
         list: a sequence of dict objects, each one containing the
-            'url' and 'title' data extracted from the HTML
-
+            'url' and 'title' data extracted from the HTML, e.g.
+            [
+                {
+                 'url': 'https://www.stanford.edu/news/2018/etc',
+                 'title': 'Stanford News Story About Things'
+                }
+            ]
     """
-
     txt = fetch_html(url)
     tags = parse_headline_tags(txt)
     headlines = []

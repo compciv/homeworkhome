@@ -11,21 +11,25 @@ This assignment covers the same target -- extracting headlines from the Stanford
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Overview](#overview)
-  - [Example usage](#example-usage)
-- [Requirements](#requirements)
-  - [Functional requirements](#functional-requirements)
-- [Setup and getting started](#setup-and-getting-started)
-  - [Setting up your working folder via the command-line](#setting-up-your-working-folder-via-the-command-line)
-  - [Dependencies](#dependencies)
-  - [Test suite](#test-suite)
-- [Background information](#background-information)
-  - [Getting started with BeautifulSoup](#getting-started-with-beautifulsoup)
-    - [Making our own simple HTML string](#making-our-own-simple-html-string)
-    - [Importing the BeautifulSoup() class/init function](#importing-the-beautifulsoup-classinit-function)
-    - [Inspecting the `soup` object](#inspecting-the-soup-object)
-    - [Using the `select()` method](#using-the-select-method)
-  - [Using BeautifulSoup on the Stanford news HTML](#using-beautifulsoup-on-the-stanford-news-html)
+  - [Overview](#overview)
+    - [Example usage](#example-usage)
+  - [Requirements](#requirements)
+    - [Functional requirements](#functional-requirements)
+  - [Setup and getting started](#setup-and-getting-started)
+    - [Setting up your working folder via the command-line](#setting-up-your-working-folder-via-the-command-line)
+    - [Dependencies](#dependencies)
+    - [Test suite](#test-suite)
+  - [Background information](#background-information)
+    - [Getting started with BeautifulSoup](#getting-started-with-beautifulsoup)
+      - [Making our own simple HTML string](#making-our-own-simple-html-string)
+      - [Importing the BeautifulSoup() class/init function](#importing-the-beautifulsoup-classinit-function)
+      - [Inspecting the `soup` object](#inspecting-the-soup-object)
+      - [Using the `select()` method](#using-the-select-method)
+      - [How to extract the text content of a HTML tag](#how-to-extract-the-text-content-of-a-html-tag)
+      - [Extracting attributes from HTML elements](#extracting-attributes-from-html-elements)
+      - [Dealing with nested tags](#dealing-with-nested-tags)
+      - [What's the point of `extract_headline_data()`?](#whats-the-point-of-extract_headline_data)
+- [Conclusion](#conclusion)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -157,8 +161,9 @@ A short primer on how to use Beautiful Soup for HTML parsing can be found here:
 
 Some use-cases:
 
-- [Using BeautifulSoup to parse HTML and extract press briefings URLs](http://www.compjour.org/warmups/govt-text-releases/intro-to-bs4-lxml-parsing-wh-press-briefings/)
+
 - [A brief primer to HTML](http://www.compjour.org/tutorials/elements-of-a-webpage/#a-brief-primer-to-html) - you're not expected to master all the subtleties of HTML, just to understand that it is just text with a certain structure (e.g. HTML tags, open vs. closing tags, nested elements).
+- [Using BeautifulSoup to parse HTML and extract press briefings URLs](http://www.compjour.org/warmups/govt-text-releases/intro-to-bs4-lxml-parsing-wh-press-briefings/)
 
 
 
@@ -271,6 +276,8 @@ list
 bs4.element.Tag
 ```
 
+#### How to extract the text content of a HTML tag
+
 You can read about the `bs4.element.Tag` object [in the official documentation here](https://www.crummy.com/software/BeautifulSoup/bs4/doc/#tag). For our purposes, extracting the text is as easy as referring to the `Tag` object's `text` attribute:
 
 ```py
@@ -278,15 +285,225 @@ You can read about the `bs4.element.Tag` object [in the official documentation h
 'Hello world!'
 ```
 
-### Using BeautifulSoup on the Stanford news HTML
+#### Extracting attributes from HTML elements
+
+The other thing you'll need to know about HTML and tags/elements is that they can have **attributes** (again, check [out this brief primer for the basics](http://www.compjour.org/tutorials/elements-of-a-webpage/#a-brief-primer-to-html)).
+
+The following HTML text string represents an `a` tag -- also known as an "anchor" tag, but more popularly known as a **hyperlink**:
+
+```html
+<a href="http://www.example.com" target="_blank">Hello there!</a>
+```
+
+The **text content** of this tag -- i.e. what's between `<a>` and `</a>` -- is: 
+
+```
+Hello there!
+```
+
+However, there are two **attributes**: `href`, which has a value of `"http://www.example.com`. And `target`, which has a value of `"_blank"`. Let's parse this with BS4 in Python:
+
+(from scratch)
+
+```py
+from bs4 import BeautifulSoup
+the_html = """
+<a href="http://www.example.com" target="_blank">Hello there!</a>
+"""
+
+soup = BeautifulSoup(the_html, 'lxml')
+tags = soup.select('a')
+thetag = tags[0]
+```
+
+The `Tag` object (variable `t`) has a property named `attrs`, which returns a dictionary:
+
+```py
+>>>> type(thetag.attrs)
+dict
+>>>> thetag.attrs
+{'href': 'http://www.example.com', 'target': '_blank'}
+```
+
+In HTML, the convention is that the `href` attribute of an `<a>` tag is the **destination** of that link, i.e. where you go when you click the link. That's all we need to complete part of this assignment -- namely the `extract_headline_data()` function, which, given a `Tag` object representing a headline nes link, returns a `dict`:
+
+```py
+>>>> d = {}
+>>>> d['url'] = thetag.attrs['href']
+>>>> d['title'] = thetag.text
+>>>> d
+{'title': 'Hello there!', 'url': 'http://www.example.com'}
+```
 
 
+What about that `target` attribute in the `<a>` tag? Who cares? It's not important to this assignment, but more importantly, HTML tags can have whatever attributes and values that authors want to arbitrarily add that have no (predictable) impact to us as regular browser users:
+
+```html
+<a href="http://www.example.com" dan="is cool" apples="oranges">Whatsup dude</a>
+```
+
+#### Dealing with nested tags
+
+OK, so the HTML that we're dealing with for this assignment is not as simple as single `<a>` tags.
+
+Take a look at the HTML in this sample snapshot of the Stanford News page:
+
+https://wgetsnaps.github.io/stanford-edu-news/news/simple.html
 
 
-Hints:
+Try this out in ipython:
 
-- Use the `BeautifulSoup()` and `.select()` functions when writing out the `parse_headline_tags()` function
-- And use the `.text` and `.attrs` attributes of the `Tag` object when writing `extract_headline_data()`
+```py
+import requests
+from bs4 import BeautifulSoup
+url = 'https://wgetsnaps.github.io/stanford-edu-news/news/simple.html'
+resp = requests.get(url)
+soup = BeautifulSoup(resp.text, 'lxml')
+```
+
+Your first instinct to select the headline links may be this:
+
+```py
+tags = soup.select('a')
+```
+
+But you'll see that you'll collect way more HTML tags than you want (there are only **2** headlines on this sample page). So what you need to do is pick a more specific selector.
+
+Warning: this is getting into intermediate-level HTML/Web understanding, specifically, CSS selectors, which you can read more about here:
+
+https://www.crummy.com/software/BeautifulSoup/bs4/doc/#css-selectors
+
+However, to keep things simple, this is where your ability to manually inspect the HTML of a page -- i.e. the text code that makes up a "headline" -- is needed. 
+
+Here is the HTML for *just* the anchor tag of a headline:
+
+```html
+<a href="https://news.stanford.edu/2018/01/16/window-long-range-planning/">A window into long-range planning</a>
+```
+
+But selecting for just anchor tags returns too many. How do we make our selection more specific? HTML is a language that allows for nested tags, i.e. a tag within another tag. So we look at the source code of the page to see if this `<a>` tag is itself within another HTML tag:
+
+```html
+<h3><a href="https://news.stanford.edu/2018/01/16/window-long-range-planning/">A window into long-range planning</a></h3>
+```
+
+In English, we might describe the above structure as:
+
+> There is an `<a>` tag within a `<h3>` tag
+
+Or:
+
+> The `<h3>` tag has a child tag: `<a>`
+
+How do we express that using an argument for BeautifulSoup's `.select()` method (again, here's a [primer from the BS4 docs](https://www.crummy.com/software/BeautifulSoup/bs4/doc/#css-selectors))?
+
+The following notation is one way to express that we are only interested in `<a>` tags that are within `<h3>` tags:
+
+```py
+tags = soup.select('h3 a')
+```
+
+That is basically the entire functionality required of the `parse_headline_tags()` method.
+
+
+#### What's the point of `extract_headline_data()`?
+
+If you aren't too intimidated by this assignment, you might notice that the `extract_headline_data()` function seems kind of pointless, or at least extraneous. All it does is take a perfectly good `Tag` object and turn it into a `dict`.
+
+For example, given this setup:
+
+```py
+from bs4 import BeautifulSoup
+the_html = """
+<h3><a href="http://www.example.com/1">Hello One</a></h3>
+<h3><a href="http://www.example.com/2">Hello Two</a></h3>
+"""
+
+soup = BeautifulSoup(the_html)
+tags = soup.select('h3 a')  
+```
+
+`extract_headline_data()` allows us to do this:
+
+```py
+for t in tags:
+  mydict = extract_headline_data(t)
+  print(mydict['url'])
+  print(mydict['title'])
+```
+
+But why even make that a function? Why not just do this:
+
+
+```py
+for t in tags:
+  print(t.attrs['href'])
+  print(t.text)
+```
+
+The short answer is: *Because I said so* (as maker of this assignment). It's practice writing a function that takes in an argument and returns something. And getting used to that pattern is an important part of programming.
+
+The big picture/real-world answer is: Because things are complicated. 
+
+This homework assignment is relatively trivial, so it's hard to imagine why there'd be any confusion. But in a larger project, the parsing/extracting of data from HTML can be its own **module** (i.e. script file) that's being called by some other part of the program (i.e. another script file)
+
+The other part of the program may *have no knowledge  or access to BeautifulSoup* -- pretend it was written by a totally different person who never learned about that library. That means they don't know what this means, because it requires knowing how the BeautifulSoup library works:
+
+```py
+for t in tags:
+  print(t.attrs['href'])
+  print(t.text)
+```
+
+However, if they are a Python programmer, they *do* know what a `dict` is. They do know to access its key/value pairs:
+
+```py
+for t in tags:
+  mydict = extract_headline_data(t)
+  print(mydict['url'])
+  print(mydict['title'])
+```
+
+`extract_headline_data()` is a mini-example of *abstraction* and *encapsulation*, turning a library-specific object -- i.e. a **BeautifulSoup** tag -- into something more general -- e.g. a `dict`. You won't appreciate the work now, because you're writing everything in this assignment. But this strategy is important for bigger things down the road.
+
+
+To put it another way, you are by now fairly familiar with the [Requests library](http://docs.python-requests.org/en/master/), and how to use it to get the text content of a page at a given URL:
+
+```py
+import requests
+resp = requests.get('http://www.example.com')
+print(resp.text)
+```
+
+What if the `.text` property of that `resp` object didn't return a string, but return some other complicated object? You'd have to spend time going through the [Request library's documentation](http://docs.python-requests.org/en/master/) to figure it out. But why Requests is such a popular library is that its author knew that users of his library -- i.e. me and you -- would want an easy way to get a plain ol Python string representing the contents of a page. Hence, the `.text` property.
+
+The `extract_headline_data()` is my way of forcing you to write something that, for some hypothetical user, makes their life easier. When your `bscraper.py` is complete, that user doesn't have to know anything about HTML parsing or Beautiful Soup or whatever to get headline data.
+
+They just call the functions in `bscraper`:
+
+```py
+from bscraper import fetch_html, parse_headline_tags, extract_headline_data 
+
+url = 'http://web.archive.org/web/20180125102637/https://www.stanforddaily.com/'
+txt = fetch_html(url)
+tags = parse_headline_tags(txt)
+for t in tags:
+  headline = extract_headline_data(t)
+  print(headline['title'], headline['url'])
+```
+
+Note: the snippet above only works because the Stanford Daily page, as archived at the [given URL](http://web.archive.org/web/20180125102637/https://www.stanforddaily.com/),  **coincidentally** has the same HTML pattern as the page at https://www.stanford.edu/news, i.e. 
+
+```html
+<h3><a href="http://url.com">Some story headline</a></h3>
+```
+
+
+# Conclusion
+
+So there are many different ways to define the *selector* we need -- and several nuances and etc. etc. that come with experience as a web developer. Assuming you are *not* (yet) a web-developer, it's enough to understand that HTML has a hierarchal structure, and that we need to understand (at a glance) the nested structure of information when we try to *select* the parts we need.
+
+So that's the "hard" part of web-scraping, figuring out the HTML that represents the info that we *need* for our purposes. But the good news is that, once we've done that, then a library like **BeautifulSoup** makes it easy to deal with a big ol' HTML string as a data structure.
 
 
 
