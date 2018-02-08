@@ -35,6 +35,7 @@ def filter_and_sort_number_strings():
 
     Hint: string objects have a method named .isnumeric()
     https://www.geeksforgeeks.org/python-string-isnumeric-application/
+
     """
     # fill it out
 
@@ -43,6 +44,12 @@ def filter_and_sort_number_strings_as_numbers():
     """
     Filter the list for strings that contain numbers
     and then sort that list of strings in *numerical* order
+
+    Hint: string objects have a method named .isnumeric()
+    https://www.geeksforgeeks.org/python-string-isnumeric-application/
+
+    Hint: Use the int() or float() method to convert a numeric string
+       into an actual number
     """
     # fill it out
 

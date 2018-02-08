@@ -32,14 +32,14 @@ def test_numerical_order():
 
 
 def test_reverse_numerical_order():
-	return foo.reverse_numerical_order() == [42, 3, 0.77, -9, -1024]
+	assert foo.reverse_numerical_order() == [42, 3, 0.77, -9, -1024]
 
 
 def test_as_absolute_value():
-	return foo.as_absolute_value() == [0.77, 3, -9, 42, -1024]
+	assert foo.as_absolute_value() == [0.77, 3, -9, 42, -1024]
 
 
 def test_as_inverse_number():
-	return foo.as_inverse_number() == [-9, -1024, 42, 3, 0.77]
+	assert foo.as_inverse_number() == [-9, -1024, 42, 3, 0.77]
 
 
