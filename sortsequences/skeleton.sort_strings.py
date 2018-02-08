@@ -32,6 +32,9 @@ def filter_and_sort_number_strings():
     Filter the original list for strings that
     contain numbers. Then sort that list of number
     strings but as strings (i.e. alphaebtical order)
+
+    Hint: string objects have a method named .isnumeric()
+    https://www.geeksforgeeks.org/python-string-isnumeric-application/
     """
     # fill it out
 
