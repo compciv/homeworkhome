@@ -129,7 +129,45 @@ You may see some messages about data/files being downloaded -- that's what `data
 >>>> soup = BeautifulSoup(txt, 'lxml')
 ```
 
-Use your browser's [Web inspector and View Source tools](http://www.compjour.org/tutorials/elements-of-a-webpage/) to see the raw HTML text that represents the table of inmates.
+Use your browser's [Web inspector and View Source tools](http://www.compjour.org/tutorials/elements-of-a-webpage/) to see the raw HTML text that represents the table of inmates:
+
+![image screenshot-web-panel-death-row-table-row-html.png](images/screenshot-web-panel-death-row-table-row-html.png)
+
+### What to `select()`?
+
+If viewing the HTML doesn't give enough hints, nothing wrong with trying out some tags that you see. 
+
+For example, in the above screenshot, there are a lot of `<td>` elements. Maybe those represent inmate data? Trying doesn't hurt:
+
+```py
+>>>> from bs4 import BeautifulSoup
+>>>> from data_helper import get_html
+>>>> soup = BeautifulSoup(get_html(), 'lxml')
+>>>> tags = soup.select('td')
+```
+
+Easiest thing to try is to count the results:
+
+```py
+>>>> len(tags)
+2320
+```
+
+**2,320** death row inmates seems excessive. Iterate through a few of the things in `tags` (remember, it's a list), just to see what you have:
+
+```py
+>>>> tags[0]
+<td>999608</td>
+>>>> tags[1]
+<td align="center"><a href="dr_info/hudsonwilliam.html" title="Offender Information for William Hudson">Offender Information</a></td>
+>>>> tags[2]
+<td>Hudson</td>
+>>>> tags[3]
+<td>William</td>
+```
+
+It's certainly not nothing. Take a look at the HTML again and see the next HTML element that *encloses* the groups of `<td>` tags.
+
 
 
 ## Background
@@ -138,6 +176,7 @@ Past assignments have tried to do a lot of things at once:
 
 [Web-scraping the Texas Executed Offenders List](http://2017.compciv.org/syllabus/assignments/homework/texas-executed-scrape.html)
 
+This one you just have to think about using BeautifulSoup on the HTML.
 
 
 
