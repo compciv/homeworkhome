@@ -36,7 +36,7 @@ def test_alpha_case_insensitive():
 
 
 def test_by_longest_length():
-	assert foo.by_longest_length() == ['12', 'Dax', '199', 'Zero', 'danny', '100000']
+	assert foo.by_longest_length() == ['100000', 'danny', 'Zero', '199', 'Dax', '12']
 
 
 def test_filter_and_sort_number_strings():
