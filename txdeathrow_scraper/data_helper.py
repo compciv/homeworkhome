@@ -6,8 +6,7 @@ DATA_SRC_URL = 'https://wgetsnaps.github.io/tdcj-state-tx-us-2018/death_row/dr_o
 # the filename of the saved page
 DATA_FILEPATH = 'tx-deathrow-webpage.html'
 
-
-def bootstrap():
+def fetch_data_from_web():
     """
     This is meant to only run once. It fetches the page and
     saves it to a specified filepath.
@@ -50,7 +49,7 @@ def get_html():
         str: the contents of the file at DATA_FILEPATH as a big text string
     """
     if not os.path.exists(DATA_FILEPATH):
-        bootstrap()
+        fetch_data_from_web()
     f = open(DATA_FILEPATH, 'r')
     txt = f.read()
     f.close()

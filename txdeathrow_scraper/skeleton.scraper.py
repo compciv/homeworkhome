@@ -28,11 +28,6 @@ def get_inmate_data():
 
 
 
-
-
-
-
-
 def get_and_parse_inmate_rows():
     """
     A convenience function that calls the functions needed to
@@ -46,7 +41,7 @@ def get_and_parse_inmate_rows():
         None
 
     Returns:
-        <list>: A list of bs4.Tag objects
+        <list>: A list of bs4.Tag objects, of the <tr> type
     """
     ### Fill in yourself, should be exactly the same
     ### as from the function found in checker.py
