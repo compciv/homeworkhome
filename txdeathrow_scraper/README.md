@@ -1,7 +1,36 @@
+# txdeathrow_scraper
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Overview](#overview)
+- [Requirements](#requirements)
+  - [Example usage](#example-usage)
+  - [Functional requirements](#functional-requirements)
+- [Setup and getting started](#setup-and-getting-started)
+  - [Using Python](#using-python)
+  - [Running the tests](#running-the-tests)
+- [Walkthrough/Guide](#walkthroughguide)
+  - [format_helper.py walkthrough](#format_helperpy-walkthrough)
+    - [Resolving relative URLs given a source URL with `make_absolute_url()`](#resolving-relative-urls-given-a-source-url-with-make_absolute_url)
+    - [Converting a datestring format to ISO format with `txdate_to_iso()`](#converting-a-datestring-format-to-iso-format-with-txdate_to_iso)
+      - [Messy dates](#messy-dates)
+    - [Finding the amount of time between two dates with `calc_years_diff()`](#finding-the-amount-of-time-between-two-dates-with-calc_years_diff)
+  - [scraper.py walkthrough](#scraperpy-walkthrough)
+    - [Extracting each inmate row with `get_and_parse_inmate_rows()`](#extracting-each-inmate-row-with-get_and_parse_inmate_rows)
+    - [Extracting each "column"](#extracting-each-column)
+    - [What's the deal with extra whitespace and `.strip()`?](#whats-the-deal-with-extra-whitespace-and-strip)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 
 ## Overview
 
 A follow up/add-on to [txdeathrow_check](../txdeathrow_check). We build upon our scraper for the [Death Row Information Homepage of the Texas Department of Criminal Justice](https://www.tdcj.state.tx.us/death_row/), specifically, the [Offenders on Death Row page](https://www.tdcj.state.tx.us/death_row/dr_offenders_on_dr.html), except this time, we turn it into usable data objects (a list of dictionaries)
+
+
+Again we use this mirror:
 
 https://wgetsnaps.github.io/tdcj-state-tx-us-2018/death_row/dr_offenders_on_dr.html
 
@@ -58,7 +87,13 @@ The [data_helper.py](data_helper.py) file is provided to you -- it basically jus
 ### Using Python
 
 ```py
-# TK
+# quickie
+import requests
+from pathlib import Path
+from urllib.parse import urljoin
+BASE_URL = 'https://compciv.github.io/homeworkhome/txdeathrow_scraper'
+
+### TK in class
 ```
 
 ### Running the tests
