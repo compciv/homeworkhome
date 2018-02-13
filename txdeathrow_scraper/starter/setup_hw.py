@@ -189,15 +189,19 @@ if __name__ == '__main__':
         n = cwd.joinpath(fname)
         print('\t', n)
 
+    print("\n")
     print("You have 3 seconds to hit Ctrl-C to break out of this program")
-    print("if you aren't ready to overwrite the above files...")
+    print("if you aren't ready to overwrite the above files...\n")
 
     sleep(2)
     print("About to do work...!")
     sleep(1)
 
     download_test_scripts()
+
+    print("\n\n\n")
     sleep(1)
+
     download_starter_scripts()
 
 
