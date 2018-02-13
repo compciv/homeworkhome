@@ -1,5 +1,7 @@
 from datastubs import PEOPLE_LIST
 
+from operator import itemgetter
+
 def longest_name():
     """
     sort by length of name in descending order
@@ -22,7 +24,7 @@ def oldest():
 
 
 def name_reverse_alpha():
-    # fill it out
+    return sorted(PEOPLE_LIST, key=lambda x: x['name'], reverse=True)
 
 
 def country_then_age():

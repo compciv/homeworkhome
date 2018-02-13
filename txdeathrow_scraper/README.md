@@ -96,46 +96,206 @@ Oldest: 52
 
 ### Functional requirements
 
-There are 3 function definitions in [scraper.py](skeleton.scraper.py):
+There are 3 function definitions in [scraper.py](starter/scraper.py):
 
 
 - `get_inmate_data()` - is already written for you
 - `get_and_parse_inmate_rows()` - you can use the exact same thing as last assignment
 - `wrangle_inmate_data_from_tag()` - this is what you have to fill out 
 
-There are 3 function definitions in [format_helper.py](skeleton.format_helper.py) -- all of them you'll fill out
+There are 3 function definitions in [format_helper.py](starter/format_helper.py) -- all of them you'll fill out
 
-- `txdate_to_iso`
-- `calc_years_diff`
-- `make_absolute_url`
-
-
-The [data_helper.py](data_helper.py) file is provided to you -- it basically just takes care of downloading from the webpage if needed. The only function you need to use from `data_helper` is `get_html()`, which returns the raw text of the death penalty webpage.
+- `txdate_to_iso()`
+- `calc_years_diff()`
+- `make_absolute_url()`
 
 
+The [data_helper.py](starter/data_helper.py) file is provided to you -- it basically just takes care of downloading from the webpage if needed. The only function you need to use from `data_helper.py` is `get_html()`, which returns the raw text of the death penalty webpage.
 
 
-## Setup and getting started
 
-### Using Python
-
-```py
-# quickie
-import requests
-from pathlib import Path
-from urllib.parse import urljoin
-BASE_URL = 'https://compciv.github.io/homeworkhome/txdeathrow_scraper'
-
-### TK in class
-```
 
 ### Running the tests
 
-The tests are in a file named [test_checker.py](test_checker.py). Use `pytest` at the command line to run them:
+There are 5 tests in the [tests/][tests] subdirectory. As always, you can run them all like this using **pytest** from the command-line:
 
 ```sh
 $ pytest
 ```
+
+However, I wouldn't run all the tests at once until you've actually finished the homework -- i.e. seeing dozens of failure messages can be overwhelming. Instead, try running tests one test file, or one test at a time.
+
+To run one test file at a time, refer to the full filename (use Tab to do autocomplete), e.g.
+
+```sh
+$ pytest tests/test_txdate_to_iso.py
+```
+
+If you know the *name* of the test, i.e. the name assertion function, e.g. 'test_conversion_to_iso_format' for the following  test function:
+
+```py
+def test_conversion_to_iso_format():
+    """
+    Make sure it converts something in MM/DD/YYYY
+     to: YYYY-MM-DD
+    """
+    assert txdate_to_iso('05/11/1977') == '1977-05-11'
+```
+
+Pass in the partial name using the `-k` flag -- note how I only need a partial name, and no reference to the specific file:
+
+
+```sh
+$ pytest -k 'conversion_to_iso_format'
+```
+
+
+## Setup and getting started
+
+<a name="cli-setup" id="cli-setup"></a>
+
+### From the command-line
+
+
+For your convenience, instead of making you copy-paste a series of `curl` commands, which are getting quite numerous, I've included in this repo a file named `setup_hw.py`, which you can view at a [browser-friendly URL here](setup_hw.py).
+
+Or, you can access as a direct URL (which is useful for `curl`:)
+
+https://compciv.github.io/homeworkhome/txdeathrow_scraper/setup_hw.py
+
+e.g. for Mac OS:
+
+```sh
+$ curl -o setup_hw.py \
+    https://compciv.github.io/homeworkhome/txdeathrow_scraper/setup_hw.py
+
+```
+
+and Windows PowerShell:
+
+```
+$ curl.exe -o setup_hw.py `
+    https://compciv.github.io/homeworkhome/txdeathrow_scraper/setup_hw.py
+```
+
+And to execute that script -- you know how to do this:
+
+```sh
+$ python setup_hw.py
+```
+
+My script does what you've done before, fetch files from online and save to your current working directory, this includes [scraper.py](starter/scraper.py) and  all the tests in ther `tests` subdirectory. Except the commands to do this work is in **Python**, not Bash/Powershell, and it's all in a single script that can be downloaded with a single `curl` command and then run like any other Python script.
+
+All together for Mac/Linux (adjust as needed for Windows):
+
+```sh
+$ curl -o setup_hw.py \
+  https://compciv.github.io/homeworkhome/txdeathrow_scraper/starter/setup_hw.py
+
+$ python setup_hw.py
+```
+
+
+### Moving from the command-line to Python scripts
+
+Why move from shell scripts to Python -- or more accurately, doing everything in a Python script, and then running that script via a shell command? Because all those `curl` commands to download multiple files should have looked messy to you, nevermind the differences between Windows and Mac OS. 
+
+Using Python let's us be platform agnostic, while putting everything in a single, easy-to-view Python file, while letting us practice Python coding in general. You can view the `setup_hw.py` on this Github repo at [starter/setup_hw.py](starter/setup_hw.py)
+
+Read on for the details of the Python code.
+
+
+#### Using curl to download a file to a specific local file path
+
+As a reminder, here is the shell command to download a file and save it to disk (in Mac OS/Linux):
+
+```sh
+$ curl -o data_helper.py \
+    https://compciv.github.io/homeworkhome/txdeathrow_scraper/data_helper.py
+```
+
+The `curl` above command does 2 things:
+
+- Downloads the following URL: https://compciv.github.io/homeworkhome/txdeathrow_scraper/data_helper.py
+- Directs the content of what's downloaded to the *relative* filename of `data_helper.py` -- "relative" to your current working directory.
+
+#### Using many lines of Python to download a file to a specific local file path
+
+Here's that same process in Python, using the Requests library:
+
+```py
+import requests
+from pathlib import Path
+
+src_url = 'https://compciv.github.io/homeworkhome/txdeathrow_scraper/data_helper.py'
+dest_path = Path('data_helper.py')
+
+resp = requests.get(src_url)
+txt = resp.text
+dest_path.write_text(txt)
+```
+
+It's a lot more *stuff* to do in Python what we did via shell commands -- just like it's a lot more *stuff* to do in shell commands what we did by point-and-click to download via the browser. 
+
+This is because scripting in Python is "lower" level -- more granular -- than system shell commands. The advantage can be seen when we need to do more granular operations (maybe print a helpful debug message with each action), or when what we're doing is very repetitive.
+
+For example, this assignment involves not 1 but **five** separate test files, which you can see on Github here:
+
+https://github.com/compciv/homeworkhome/tree/master/txdeathrow_scraper/tests
+
+Or as direct download links:
+
+- https://compciv.github.io/homeworkhome/txdeathrow_scraper/test_calc_years_diff.py
+- https://compciv.github.io/homeworkhome/txdeathrow_scraper/test_make_absolute_url.py
+- https://compciv.github.io/homeworkhome/txdeathrow_scraper/test_scraper.py
+- https://compciv.github.io/homeworkhome/txdeathrow_scraper/test_txdate_to_iso.py
+- https://compciv.github.io/homeworkhome/txdeathrow_scraper/test_wrangle_inmate_data.py
+
+We know how to do this in the shell using `curl`, write multiple `curl` statements for each URL. 
+
+Here's one way to write the test-downloading code in Python. It's verbose, but we have the flexibility to do things like break up the really long URLs into separate variables/components, and to set up the filepaths that are being downloaded to, e.g. create the subdirectory `tests`:
+
+
+```py
+from pathlib import Path
+import requests
+
+GH_DOMAIN = 'https://compciv.github.io'
+GH_PATH = 'homeworkhome/txdeathrow_scraper'
+GH_BASE = GH_DOMAIN + '/' + GH_PATH
+
+TEST_BASENAMES = ['test_calc_years_diff.py',
+  'test_make_absolute_url.py',
+  'test_scraper.py',
+  'test_txdate_to_iso.py',
+  'test_wrangle_inmate_data.py',
+]
+
+TESTS_PATH = Path('tests')
+# make subdirectory, if it doesn't exist
+TESTS_PATH.mkdir(exist_ok=True)
+
+for fname in TEST_BASENAMES:
+   _uparts = [GH_BASE, 'tests', fname]
+   url = '/'.join(_uparts)   
+   print('-----------------')
+   print("Downloading from:\n", url)
+   resp = requests.get(url)
+
+   dest_path = TESTS_PATH.joinpath(fname)
+   print("-- Saving to:", dest_path)
+   dest_path.write_text(resp.text)
+```
+
+Take a look at [startup/setup_hw.py](startup/setup_hw.py) to see the source code. There's some fanciness I've added but you should see the core code of downloading/saving to a file and (someday) aspire to write it on your own.
+
+For the purposes of setting up this exercise, just copy the contents of [startup/setup_hw.py](startup/setup_hw.py) into a Python script in the directory you want to be working in locally (i.e. probably not `startup/`), and then run:
+
+```sh
+$ python startup/setup_hw.py
+```
+
+
 
 
 
