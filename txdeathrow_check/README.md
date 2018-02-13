@@ -1,5 +1,10 @@
 # txdeathrow_check - A quickie count of Texas Death Row using HTML parsing
 
+This assignment is a quick review of how to use BeautifulSoup, the HTML parsing library, to parse data from a government website and do a simple count. 
+
+This is an light intro to what is usually just one big convoluted assignment mixing web-scraping techniques with trying to understand the justice system. And also, learning to deal with data-entry errors.
+
+
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -18,9 +23,6 @@
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 
-This assignment is a quick review of how to use BeautifulSoup, the HTML parsing library, to parse data from a government website and do a simple count. 
-
-This is an light intro to what is usually just one big convoluted assignment mixing web-scraping techniques with trying to understand the justice system. And also, learning to deal with data-entry errors.
 
 
 ## Overview

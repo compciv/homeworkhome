@@ -1,8 +1,11 @@
 # txdeathrow_scraper
 
+This assignment is a continuation of [txdeathrow_check](../txdeathrow_check), but instead of just counting items in a list (i.e. BS4 table row elements), we convert each table row into a Python dictionary, which can be serialized into a data format (CSV/JSON) or used by another Python program.
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
 
 - [Overview](#overview)
 - [Requirements](#requirements)
@@ -34,6 +37,8 @@ Again we use this mirror:
 
 https://wgetsnaps.github.io/tdcj-state-tx-us-2018/death_row/dr_offenders_on_dr.html
 
+And we use some of the code we wrote for [txdeathrow_check](../txdeathrow_check)
+
 ## Requirements
 
 ### Example usage
@@ -59,6 +64,34 @@ https://wgetsnaps.github.io/tdcj-state-tx-us-2018/death_row/dr_info/hudsonwillia
 2015-11-14
 33
 ```
+
+
+Or, we could even do calculations like these:
+
+```py
+from scraper import get_inmate_data
+import numpy
+
+inmates = get_inmate_data()
+ages = [i['age_at_offense'] for i in inmates]
+print("Stats about inmate ages when convicted:")
+print("Average:", round(numpy.mean(ages), 1))
+print("Median:", numpy.median(ages))
+print("Youngest:", numpy.min(ages))
+print("Oldest:", numpy.max(ages))
+```
+
+
+Expected output:
+
+```
+Stats about inmate ages when convicted:
+Average: 28.1
+Median: 26.0
+Youngest: 18
+Oldest: 52
+```
+
 
 
 ### Functional requirements
