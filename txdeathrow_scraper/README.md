@@ -113,6 +113,21 @@ There are 3 function definitions in [format_helper.py](starter/format_helper.py)
 The [data_helper.py](starter/data_helper.py) file is provided to you -- it basically just takes care of downloading from the webpage if needed. The only function you need to use from `data_helper.py` is `get_html()`, which returns the raw text of the death penalty webpage.
 
 
+In the end, this is what your working directory should look like (including the tests subdirectory is optional):
+
+```
+  ├── data_helper.py
+  ├── format_helper.py
+  ├── scraper.py
+  └── tests/
+      ├── test_calc_years_diff.py
+      ├── test_make_absolute_url.py
+      ├── test_scraper.py
+      ├── test_txdate_to_iso.py
+      └── test_wrangle_inmate_data.py
+```
+
+
 
 
 ### Running the tests
@@ -196,7 +211,7 @@ $ python setup_hw.py
 ```
 
 
-### Moving from the command-line to Python scripts
+### Moving from shell commands to Python scripts
 
 Why move from shell scripts to Python -- or more accurately, doing everything in a Python script, and then running that script via a shell command? Because all those `curl` commands to download multiple files should have looked messy to you, nevermind the differences between Windows and Mac OS. 
 
