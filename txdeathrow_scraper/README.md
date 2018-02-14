@@ -182,7 +182,7 @@ e.g. for Mac OS:
 
 ```sh
 $ curl -o setup_hw.py \
-    https://compciv.github.io/homeworkhome/txdeathrow_scraper/setup_hw.py
+    https://compciv.github.io/homeworkhome/txdeathrow_scraper/starter/setup_hw.py
 
 ```
 
