@@ -190,7 +190,7 @@ and Windows PowerShell:
 
 ```
 $ curl.exe -o setup_hw.py `
-    https://compciv.github.io/homeworkhome/txdeathrow_scraper/setup_hw.py
+    https://compciv.github.io/homeworkhome/txdeathrow_scraper/starter/setup_hw.py
 ```
 
 And to execute that script -- you know how to do this:
