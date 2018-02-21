@@ -176,7 +176,7 @@ For your convenience, instead of making you copy-paste a series of `curl` comman
 
 Or, you can access as a direct URL (which is useful for `curl`:)
 
-https://compciv.github.io/homeworkhome/txdeathrow_scraper/setup_hw.py
+https://compciv.github.io/homeworkhome/txdeathrow_scraper/starter/setup_hw.py
 
 e.g. for Mac OS:
 
