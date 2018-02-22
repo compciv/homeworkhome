@@ -33,7 +33,7 @@ FILE_PATHS = [
     Path('data', 'usgs-quakes.csv'),
 ]
 
-SRC_URLS = ['/'.join(GH_BASEURL, str(fp)) for fp in FILE_PATHS]
+SRC_URLS = [Path.joinpath(GH_BASEURL, fp) for fp in FILE_PATHS]
 
 def get_and_save_url(src_url, dest_fname):
     dest_fname = Path(dest_fname)
