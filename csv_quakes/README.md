@@ -2,7 +2,8 @@
 
 
 ```sh
-$ curl -O https://compciv.github.io/homeworkhome/starter/setup_hw.py
+curl -O \
+    https://compciv.github.io/homeworkhome/csv_quakes/starter/setup_hw.py
 ```
 
 
