@@ -32,11 +32,12 @@ GH_REPO = 'csv_quakes'
 GH_BASEURL = '/'.join([GH_DOMAIN , GH_SUBDIR, GH_REPO])
 
 SRC_URLPATHS = [
-    Path('starter', 'aggy.py'),
-    Path('starter', 'sorty.py'),
-    Path('tests','test_aggy.py'),
-    Path('tests', 'test_sorty.py'),
-    Path('data', 'usgs-quakes.csv'),
+    urljoin(GH_BASEURL, 'starter/aggy.py')
+    # Path('starter', 'aggy.py'),
+    # Path('starter', 'sorty.py'),
+    # Path('tests','test_aggy.py'),
+    # Path('tests', 'test_sorty.py'),
+    # Path('data', 'usgs-quakes.csv'),
 ]
 
 
@@ -45,7 +46,7 @@ def get_and_save_url(src_url, dest_fname):
     ## now download
     thebytes = get_url(src_url)
     dest_fname.write_bytes()
-    # return Path object
+    # dont need to return anything but return the filename anyway
     return dest_fname
 
 def get_url(url):
@@ -73,7 +74,7 @@ def does_file_exist(fname):
         bsize = dest_fname.stat().st_size
         if bsize > 0:
             # if not, ask to overwrite
-            msg = "{n} exists; Overwrite? (Y/N)".format(n=fname)
+            msg = "{n} exists; Overwrite? (Y/N) ".format(n=fname)
             omsg = input(msg).strip().upper()
             if omsg != 'Y':
                 return True  # return True -- i.e. fname exists and don't overwrite
@@ -88,26 +89,26 @@ if __name__ == '__main__':
     the command-line, i.e.
 
         $ python setup_hw.py
-
     """
     print("********************************************")
     print("This script downloads a bunch of files from:")
     print(GH_BASEURL, "\n")
     print("And saves them to the current working directory, which is:")
-    cwd = Path(__file__).parent.absolute()
-    print(cwd, '\n')
+    workingdir = Path(__file__).parent.absolute()
+    print(workingdir, '\n')
 
     sleep(1)
 
-    for pth in SRC_URLPATHS:
-        dest_fname = cwd.joinpath(pth)
+    for url in SRC_URLPATHS:
+        fn = Path(url).name
+        dest_fname = workingdir.joinpath(fn)
 
         # check file existence
         if not does_file_exist(dest_fname):
             url = urljoin(GH_BASEURL, str(pth))
 
             # download and save
-            print("Downloading:", url)
-            get_and_save_url(url, dest_fname)
-            print("Wrote to:", dest_Fname)
+            # print("Downloading:", url)
+            # get_and_save_url(url, dest_fname)
+            # print("Wrote to:", dest_fname)
 
