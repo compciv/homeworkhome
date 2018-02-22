@@ -25,15 +25,15 @@ GH_REPO = 'csv_quakes'
 
 GH_BASEURL = '/'.join([GH_DOMAIN , GH_SUBDIR, GH_REPO])
 
-SRC_URLPATHS = [
-    urljoin(GH_BASEURL, 'starter/aggy.py')
-    # Path('starter', 'aggy.py'),
-    # Path('starter', 'sorty.py'),
-    # Path('tests','test_aggy.py'),
-    # Path('tests', 'test_sorty.py'),
-    # Path('data', 'usgs-quakes.csv'),
+FILE_PATHS = [
+    Path('starter', 'aggy.py'),
+    Path('starter', 'sorty.py'),
+    Path('tests','test_aggy.py'),
+    Path('tests', 'test_sorty.py'),
+    Path('data', 'usgs-quakes.csv'),
 ]
 
+SRC_URLS = ['/'.join(GH_BASEURL, str(fp)) for fp in FILE_PATHS]
 
 def get_and_save_url(src_url, dest_fname):
     dest_fname = Path(dest_fname)
@@ -93,9 +93,8 @@ if __name__ == '__main__':
 
     sleep(1)
 
-    for url in SRC_URLPATHS:
-        fn = Path(url).name
-        dest_fname = workingdir.joinpath(fn)
+    for url in SRC_URLS:
+        dest_fname = workingdir.joinpath(Path(url).name)
 
         # check file existence
         if not does_file_exist(dest_fname):
