@@ -105,10 +105,9 @@ if __name__ == '__main__':
 
         # check file existence
         if not does_file_exist(dest_fname):
-            url = urljoin(GH_BASEURL, str(pth))
 
             # download and save
-            # print("Downloading:", url)
+            print("Downloading:", url)
             # get_and_save_url(url, dest_fname)
-            # print("Wrote to:", dest_fname)
+            print("Wrote to:", dest_fname)
 
