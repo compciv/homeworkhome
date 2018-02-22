@@ -7,15 +7,9 @@ How to use:
 
 Downloads files needed for this project.
 
-    ├── data_helper.py
-    ├── format_helper.py
-    ├── scraper.py
-    └── tests/
-        ├── test_calc_years_diff.py
-        ├── test_make_absolute_url.py
-        ├── test_scraper.py
-        ├── test_txdate_to_iso.py
-        └── test_wrangle_inmate_data.py
+    ├── aggy.py
+    ├── sorty.py
+    └── usgs-quakes.csv
 
 ##########################################################
 """
