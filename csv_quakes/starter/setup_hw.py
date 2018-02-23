@@ -7,8 +7,13 @@ How to use:
 
 Downloads files needed for this project.
 
+    ├── datafoo.py
     ├── aggy.py
     ├── sorty.py
+    ├── test_datafoo.py
+    ├── test_aggy.py
+    ├── test_sorty.py
+    ├── sample-quakes.csv
     └── usgs-quakes.csv
 
 ##########################################################
@@ -19,21 +24,20 @@ import requests
 from time import sleep
 from urllib.parse import urljoin
 
-GH_DOMAIN = 'https://compciv.github.io'
-GH_SUBDIR = 'homeworkhome'
-GH_REPO = 'csv_quakes'
-
-GH_URL = '/'.join([GH_DOMAIN , GH_SUBDIR, GH_REPO])
+GH_URL = 'https://compciv.github.io/homeworkhome/csv_quakes'
 
 FILE_PATHS = [
+    Path('data', 'sample-quakes.csv'),
+    Path('data', 'usgs-quakes.csv'),
+    Path('starter', 'datafoo.py'),
     Path('starter', 'aggy.py'),
     Path('starter', 'sorty.py'),
-    Path('tests','test_aggy.py'),
+    Path('tests', 'test_aggy.py'),
+    Path('tests', 'test_datafoo.py'),
     Path('tests', 'test_sorty.py'),
-    Path('data', 'usgs-quakes.csv'),
 ]
 
-SRC_URLS = ['{}/{}'.format(GH_URL, fp) for fp in FILE_PATHS]
+SRC_URLS = [GH_URL + '/' + f for f in FILE_PATHS]
 
 def get_and_save_url(src_url, dest_fname):
     dest_fname = Path(dest_fname)

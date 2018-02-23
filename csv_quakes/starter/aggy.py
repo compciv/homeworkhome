@@ -8,10 +8,19 @@
 - quakes per day of week
 - quakes per whole-magnitude
 - quakes within Oklahoma region
-- Biggest quake per year
+- Biggest quake magnitude per year
 
 
 
+def total_quake_count():
+    """
+    Returns:
+        <int>: total number of quakes in the `data`
+    """
 
-def quakes_per_year(data):
-    return 0
+def quakes_per_year():
+    """
+    Returns:
+        <dict>:
+    """
+

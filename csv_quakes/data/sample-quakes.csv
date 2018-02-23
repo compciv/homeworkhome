@@ -1,0 +1,11 @@
+time,latitude,longitude,depth,mag,magType,nst,gap,dmin,rms,net,id,updated,place,type,horizontalError,depthError,magError,magNst,status,locationSource,magSource
+2008-01-03T09:37:55.550Z,47.382,-70.312,13.5,3.4,mblg,31,39.5,,,us,usp000fvwe,2014-11-07T01:34:36.034Z,"St. Lawrence Valley region, Quebec, Canada",earthquake,,,,,reviewed,ott,ott
+2008-01-03T13:28:16.000Z,49.31,-112.78,38.4,3.5,ml,29,51.7,,,us,usp000fvwx,2014-11-07T01:34:36.173Z,"Alberta, Canada",earthquake,,,,,reviewed,but,pgc
+2008-01-05T23:45:00.770Z,35.0668333,-113.8881667,6.225,3.18,ml,2,347,0.8376,0.02,ci,ci10298313,2016-03-09T16:28:56.550Z,"20km SE of Kingman, AZ",earthquake,3.32,31.61,0.128,81,reviewed,ci,ci
+2008-01-09T01:34:46.700Z,41.72,-81.43,5,3.1,mblg,29,69.7,,,us,usp000fwa6,2016-05-27T19:24:18.880Z,"Lake Erie, Ohio",earthquake,,,,,reviewed,ogso,ogso
+2008-01-09T21:37:37.000Z,44.785,-110.943,7.6,3.7,ml,33,46.6,,,us,usp000fwby,2015-01-29T18:58:15.218Z,"Yellowstone National Park, Wyoming",earthquake,,,,,reviewed,slc,slc
+2008-01-10T06:12:43.440Z,46.1061667,-74.8171667,16.69,3.13,md,17,100,0.2157,0.14,ld,ld2008011000,2016-05-27T19:24:20.370Z,"southern Quebec, Canada",earthquake,0.19,0.28,,,reviewed,ld,ld
+2008-01-10T11:26:15.970Z,30.917,-113.892,10,3.8,mb,23,209.8,,1.03,us,usp000fwda,2014-11-07T01:34:40.007Z,"Gulf of California",earthquake,,,,3,reviewed,us,us
+2008-01-11T12:05:11.880Z,35.3441667,-118.5541667,6.411,3.9,ml,64,46,0.1212,0.27,ci,ci10299017,2016-03-09T01:19:21.165Z,"25km NNW of Tehachapi, CA",earthquake,0.28,2.74,0.145,343,reviewed,ci,ci
+2008-01-11T14:02:47.100Z,35.3461667,-118.5608333,6.481,3.04,ml,59,46,0.1269,0.24,ci,ci10299037,2016-03-09T08:27:34.777Z,"26km NNW of Tehachapi, CA",earthquake,0.23,1.67,0.146,192,reviewed,ci,ci
+2008-01-12T12:50:20.440Z,30.445,-113.901,10,3.9,ml,8,219.5,,1.32,us,usp000fwj5,2014-11-07T01:34:41.056Z,"Gulf of California",earthquake,,,,,reviewed,us,us
