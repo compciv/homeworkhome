@@ -23,7 +23,7 @@ GH_DOMAIN = 'https://compciv.github.io'
 GH_SUBDIR = 'homeworkhome'
 GH_REPO = 'csv_quakes'
 
-GH_BASEURL = '/'.join([GH_DOMAIN , GH_SUBDIR, GH_REPO])
+GH_URL = '/'.join([GH_DOMAIN , GH_SUBDIR, GH_REPO])
 
 FILE_PATHS = [
     Path('starter', 'aggy.py'),
@@ -33,13 +33,13 @@ FILE_PATHS = [
     Path('data', 'usgs-quakes.csv'),
 ]
 
-SRC_URLS = [Path(GH_BASEURL, fp) for fp in FILE_PATHS]
+SRC_URLS = ['{}/{}'.format(GH_URL, fp) for fp in FILE_PATHS]
 
 def get_and_save_url(src_url, dest_fname):
     dest_fname = Path(dest_fname)
     ## now download
-    thebytes = get_url(src_url)
-    dest_fname.write_bytes()
+    xbytes = get_url(src_url)
+    dest_fname.write_bytes(xbytes)
     # dont need to return anything but return the filename anyway
     return dest_fname
 
@@ -86,7 +86,8 @@ if __name__ == '__main__':
     """
     print("********************************************")
     print("This script downloads a bunch of files from:")
-    print(GH_BASEURL, "\n")
+    print(GH_URL, "\n")
+
     print("And saves them to the current working directory, which is:")
     workingdir = Path(__file__).parent.absolute()
     print(workingdir, '\n')
